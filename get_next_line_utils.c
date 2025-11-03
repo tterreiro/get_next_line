@@ -6,7 +6,7 @@
 /*   By: hde-andr <hde-andr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 16:54:02 by hde-andr          #+#    #+#             */
-/*   Updated: 2025/11/02 17:16:17 by hde-andr         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:09:17 by hde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s, char c)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i] != c && s[i] != '\0')
 		i++;
 	return (i);
 }
@@ -48,6 +50,8 @@ char	*ft_strchr(const char *s, int c)
 
 	i = 0;
 	chr = (char)c;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
 		if (s[i] == chr)
@@ -59,11 +63,13 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strldup(const char *s, size_t len)
+char	*ft_strndup(const char *s, size_t len)
 {
 	char	*tmp;
-	int		i;
+	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	tmp = malloc(sizeof(char) * (len + 1));
 	if (tmp == NULL)
@@ -83,16 +89,18 @@ char	*merge(char	*prev, const char *current)
 	size_t	len_cur;
 	char	*merged;
 
-	if (prev)
-		ft_strlen(prev);
-	len_cur = ft_strlen(current);
+	len_cur = ft_strlen(current, '\0');
+	if (!prev)
+		len_prev = 0;
+	else
+		len_prev = ft_strlen(prev, '\0');
 	merged = malloc(len_cur + len_prev + 1);
 	if (!merged)
 		return (NULL);
 	if (prev)
-		ft_memcpy(merge, prev, len_prev);
-	ft_memcpy(merge + len_prev, current, len_cur);
-	merged[len_cur + len_prev + 1] = '\0';
+		ft_memcpy(merged, prev, len_prev);
+	ft_memcpy(merged + len_prev, current, len_cur);
+	merged[len_cur + len_prev] = '\0';
 	if (prev)
 		free (prev);
 	return (merged);

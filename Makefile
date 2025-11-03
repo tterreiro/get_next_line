@@ -6,13 +6,13 @@
 #    By: hde-andr <hde-andr@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/13 13:17:36 by hde-andr          #+#    #+#              #
-#    Updated: 2025/10/30 17:35:49 by hde-andr         ###   ########.fr        #
+#    Updated: 2025/11/03 18:03:06 by hde-andr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = get_next_line
 
-BONUS = 
+BONUS = get_next_line_bonus.c get_next_line_utils_bonus.c
 
 SRCS = get_next_line.c get_next_line_utils.c
 
@@ -20,7 +20,7 @@ OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS:.c=.o)
 
 %.o: %.c
-	cc -Wall -Wextra -Werror -D BUFFER_SIZE=n -I. -c $< -o  $@
+	cc -Wall -Wextra -Werror -D BUFFER_SIZE=4 -I. -c $< -o  $@
 
 all: $(NAME)
 
