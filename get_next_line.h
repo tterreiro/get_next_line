@@ -6,7 +6,7 @@
 /*   By: hde-andr <hde-andr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:14:11 by hde-andr          #+#    #+#             */
-/*   Updated: 2025/11/03 18:09:01 by hde-andr         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:13:34 by hde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 4
 # endif 
 
 # include <stdlib.h>

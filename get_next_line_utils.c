@@ -6,7 +6,7 @@
 /*   By: hde-andr <hde-andr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 16:54:02 by hde-andr          #+#    #+#             */
-/*   Updated: 2025/11/03 20:09:17 by hde-andr         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:31:18 by hde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ char	*merge(char	*prev, const char *current)
 		len_prev = ft_strlen(prev, '\0');
 	merged = malloc(len_cur + len_prev + 1);
 	if (!merged)
+	{
+		free(prev);
 		return (NULL);
+	}
 	if (prev)
 		ft_memcpy(merged, prev, len_prev);
 	ft_memcpy(merged + len_prev, current, len_cur);

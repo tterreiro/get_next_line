@@ -6,11 +6,17 @@
 /*   By: hde-andr <hde-andr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:48 by hde-andr          #+#    #+#             */
-/*   Updated: 2025/11/03 20:11:46 by hde-andr         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:24:51 by hde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static void	*ft_free(char *str)
+{
+	free (str);
+	return (NULL);
+}
 
 static char	*get_line(char **buffer)
 {
@@ -24,12 +30,16 @@ static char	*get_line(char **buffer)
 		new_line++;
 	line = ft_strndup(*buffer, new_line);
 	if (!line)
+	{
+		free (*buffer);
 		return (NULL);
+	}
 	end_of_file = ft_strlen(*buffer + new_line, '\0');
 	rest = ft_strndup(*buffer + new_line, end_of_file);
 	if (!rest)
 	{
 		free (line);
+		free (*buffer);
 		return (NULL);
 	}
 	free (*buffer);
@@ -40,29 +50,26 @@ static char	*get_line(char **buffer)
 static char	*get_buffer(int fd, char *buffer)
 {
 	char	*current;
-	size_t	bytes;
+	ssize_t	bytes;
 
 	bytes = 1;
 	current = malloc(BUFFER_SIZE + 1);
 	if (!current)
-		return (NULL);
-	while (bytes > 0 && !ft_strchr(buffer, '\n'))
+		return (ft_free(buffer));
+	while (bytes > 0)
 	{
 		bytes = read (fd, current, BUFFER_SIZE);
-		if (bytes == 0)
+		if (bytes <= 0)
 			break ;
-		if (bytes < 0)
-		{
-			free (current);
-			return (NULL);
-		}
 		current[bytes] = '\0';
 		buffer = merge(buffer, current);
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
 	free(current);
-	if (ft_strlen(buffer, '\0') > 0)
-		return (buffer);
-	return (NULL);
+	if (bytes < 0 || ft_strlen(buffer, '\0') <= 0)
+		return (ft_free(buffer));
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
@@ -76,6 +83,11 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	line = get_line(&buffer);
+	if (!line)
+	{
+		buffer = NULL;
+		return (NULL);
+	}
 	if (!buffer[0])
 	{
 		free (buffer);
